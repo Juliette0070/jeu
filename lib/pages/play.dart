@@ -9,11 +9,15 @@ class Play extends StatelessWidget {
     return MaterialApp(
         theme: MyTheme.dark(),
         title: "SAE Mobile",
-        home: const Scaffold(
+        home: Scaffold(
             body: Center(
-                child: Text(
-                    "Page de jeu!"
-                )
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Image.asset('assets/images/nombreMystere.jpg'),
+                  Text("Page de jeu!")
+                ],
+              ),
             )
         )
     );
