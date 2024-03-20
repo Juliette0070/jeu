@@ -34,10 +34,10 @@ class Home extends State<MainPage>{
 
     return MaterialApp(
         theme: MyTheme.dark(),
-        title: 'TD2',
+        title: "Nombre mystère",
         home: Scaffold(
           appBar: AppBar(
-              title: const Text("Application du TD2"),
+              title: const Text("Nombre mystère"),
               titleTextStyle: MyTheme.darkTextTheme.displayLarge
           ),
           backgroundColor: Colors.black,
