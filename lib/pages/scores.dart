@@ -8,7 +8,7 @@ class Scores extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: MyTheme.dark(),
-        title: "SAE Mobile",
+        title: "Nombre mystère",
         home: const Scaffold(
             body: Center(
                 child: Text(

@@ -11,8 +11,8 @@ class Rules extends StatelessWidget {
 
     return MaterialApp(
         theme: MyTheme.dark(),
-        title: "SAE Mobile",
-        home: Scaffold(
+        title: "Nombre mystère",
+        home: const Scaffold(
             body: Center(
                 child: ListView(
                   padding: EdgeInsets.all(8),

@@ -4,7 +4,7 @@ import 'pages/mainPage.dart';
 void main() {
   runApp( MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "SAE Mobile",
+      title: "Nombre mystère",
       home: MainPage()
   ));
 }
