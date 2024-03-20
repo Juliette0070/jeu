@@ -12,7 +12,7 @@ class Rules extends StatelessWidget {
     return MaterialApp(
         theme: MyTheme.dark(),
         title: "Nombre mystère",
-        home: const Scaffold(
+        home: Scaffold(
             body: Center(
                 child: ListView(
                   padding: EdgeInsets.all(8),
