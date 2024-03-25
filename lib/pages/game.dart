@@ -11,6 +11,8 @@ class GameState extends State<Game> {
   String lastInput = 'Entrez un nombre dans le champ ci-dessous!';
   String currentInput = '';
   int mysteryNumber = 42;
+  int lowestNumber = 1;
+  int highestNumber = 100;
   int? lastTooHigh;
   int? lastTooLow;
   int baseAttempts = 10;
@@ -87,6 +89,10 @@ class GameState extends State<Game> {
       int? guess = int.tryParse(currentInput);
       if (guess == null) {
         lastInput = 'Veuillez entrer un nombre valide!';
+        return;
+      }
+      if (guess < lowestNumber || guess > highestNumber) {
+        lastInput = 'Le nombre doit être compris entre $lowestNumber et $highestNumber!';
         return;
       }
       if (guess == mysteryNumber) {
