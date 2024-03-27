@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'pages/mainPage.dart';
+import 'pages/main_page.dart';
 
 void main() {
-  runApp( MaterialApp(
+  runApp(const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Nombre mystère",
       home: MainPage()

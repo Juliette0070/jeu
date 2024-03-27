@@ -15,7 +15,7 @@ class Rules extends StatelessWidget {
         home: Scaffold(
             body: Center(
                 child: ListView(
-                  padding: EdgeInsets.all(8),
+                  padding: const EdgeInsets.all(8),
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.symmetric(vertical: screenHeight * 0.05, horizontal: screenWidth * 0.05),

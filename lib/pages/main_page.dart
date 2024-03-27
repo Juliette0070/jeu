@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:jeu/pages/play.dart';
 import 'package:jeu/pages/scores.dart';
 import 'package:jeu/pages/rules.dart';
-import 'package:jeu/pages/game.dart';
 import 'package:jeu/mytheme.dart';
 
 class MainPage extends StatefulWidget{
@@ -23,13 +22,13 @@ class Home extends State<MainPage>{
 
     switch(_currentScreen){
       case 0:
-        child = Game();
+        child = const Play();
         break;
       case 1:
-        child = Scores();
+        child = const Scores();
         break;
       case 2:
-        child = Rules();
+        child = const Rules();
         break;
     }
 

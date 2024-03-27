@@ -1,8 +1,36 @@
 import 'package:flutter/material.dart';
 import '../../mytheme.dart';
+import 'package:jeu/pages/game.dart';
 
-class Play extends StatelessWidget {
+class Play extends StatefulWidget {
   const Play({super.key});
+
+  @override
+  State<Play> createState() => _PlayState();
+}
+
+class _PlayState extends State<Play> {
+  static bool isGameScreenVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return isGameScreenVisible
+        ? const Game()
+        : WidgetLancerJeu(
+          onPlayPressed: () {
+            setState(() {
+              isGameScreenVisible = true;
+            });
+          },
+    );
+  }
+}
+
+class WidgetLancerJeu extends StatelessWidget {
+  final VoidCallback onPlayPressed;
+
+  const WidgetLancerJeu({Key? key, required this.onPlayPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +43,11 @@ class Play extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.asset('assets/images/nombreMystere.jpg'),
-                  Text("Page de jeu!")
+                  const Text("Page de jeu!"),
+                  ElevatedButton(
+                    onPressed: onPlayPressed,
+                    child: const Text('Jouer'),
+                  ),
                 ],
               ),
             )
