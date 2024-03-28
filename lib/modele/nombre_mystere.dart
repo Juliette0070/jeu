@@ -19,6 +19,10 @@ class NombreMystere {
     8: [1280, 8],
   };
 
+  NombreMystere() {
+    initNiveau(1);
+  }
+
   void initNiveau(int niv) {
     int nbTent = 0;
     int nbMyst = 0;
@@ -36,6 +40,7 @@ class NombreMystere {
     nbTentativesMaxNiveau = nbTent;
     niveau = niv;
     tentativeHaute = tentH;
+    tentativeBasse = 0;
     nbEssaisNiveau = 0;
   }
 
@@ -43,61 +48,5 @@ class NombreMystere {
     score += (nbTentativesMaxNiveau - nbEssaisNiveau) * niveaux[niveau]![0];
     niveau++;
     initNiveau(niveau);
-  }
-
-  void incrementerEssais() {
-    nbEssaisNiveau++;
-  }
-
-  int nombre() {
-    return nombreMystere;
-  }
-
-  int tentativesMax() {
-    return nbTentativesMaxNiveau;
-  }
-
-  int essais() {
-    return nbEssaisNiveau;
-  }
-
-  int niveauActuel() {
-    return niveau;
-  }
-
-  int scoreActuel() {
-    return score;
-  }
-
-  int tentativeBasseActuelle() {
-    return tentativeBasse;
-  }
-
-  int tentativeHauteActuelle() {
-    return tentativeHaute;
-  }
-
-  bool estTrouve(int nb) {
-    return nb == nombreMystere;
-  }
-
-  bool estPerdu() {
-    return nbEssaisNiveau >= nbTentativesMaxNiveau;
-  }
-
-  void setTentativeBasse(int nb) {
-    tentativeBasse = nb;
-  }
-
-  void setTentativeHaute(int nb) {
-    tentativeHaute = nb;
-  }
-
-  void tryNumber(int nb) {
-    if (nb < nombreMystere) {
-      setTentativeBasse(nb);
-    } else {
-      setTentativeHaute(nb);
-    } incrementerEssais();
   }
 }

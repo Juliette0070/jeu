@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:jeu/modele/nombre_mystere.dart';
 
 class Game extends StatefulWidget {
-  const Game({Key? key}) : super(key: key);
+  const Game({super.key, required this.nm});
+
+  final NombreMystere nm;
 
   @override
   GameState createState() => GameState();
@@ -10,13 +13,7 @@ class Game extends StatefulWidget {
 class GameState extends State<Game> {
   String lastInput = 'Entrez un nombre dans le champ ci-dessous!';
   String currentInput = '';
-  int mysteryNumber = 42;
-  int lowestNumber = 1;
-  int highestNumber = 100;
-  int? lastTooHigh;
-  int? lastTooLow;
-  int baseAttempts = 10;
-  int attempts = 10;
+  TextEditingController _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,20 +31,22 @@ class GameState extends State<Game> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(
-                lastTooLow != null
-                    ? '$lastTooLow <'
-                    : ' ? < ',
+              Text('${widget.nm.tentativeBasse} <',
                 style: const TextStyle(fontSize: 24),
               ),
               const SizedBox(width: 10),
               SizedBox(
                 width: 60,
                 child: TextField(
+                  controller: _controller,
                   onChanged: (value) {
                     setState(() {
                       currentInput = value;
                     });
+                  },
+                  onSubmitted: (_) {
+                    handleButtonPress();
+                    _controller.clear();
                   },
                   keyboardType: TextInputType.number,
                   decoration: const InputDecoration(
@@ -56,16 +55,13 @@ class GameState extends State<Game> {
                 ),
               ),
               const SizedBox(width: 10),
-              Text(
-                lastTooHigh != null
-                    ? '< $lastTooHigh'
-                    : '< ?',
+              Text('< ${widget.nm.tentativeHaute}',
                 style: const TextStyle(fontSize: 24),
               ),
             ],
           ),
           Text(
-            'Il vous reste $attempts essais',
+            'Il vous reste ${widget.nm.nbTentativesMaxNiveau - widget.nm.nbEssaisNiveau} essais',
             style: const TextStyle(fontSize: 24),
           ),
           ElevatedButton(
@@ -91,32 +87,32 @@ class GameState extends State<Game> {
         lastInput = 'Veuillez entrer un nombre valide!';
         return;
       }
-      if (guess < lowestNumber || guess > highestNumber) {
-        lastInput = 'Le nombre doit être compris entre $lowestNumber et $highestNumber!';
+      if (guess < widget.nm.tentativeBasse || guess > widget.nm.tentativeHaute) {
+        lastInput = 'Le nombre doit être compris entre ${widget.nm.tentativeBasse} et ${widget.nm.tentativeHaute}!';
         return;
       }
-      if (guess == mysteryNumber) {
-        lastInput = 'Bravo, vous avez trouvé le nombre mystère! C\'était bien $mysteryNumber, vous avez pris ${baseAttempts - attempts + 1} essais';
-        lastTooLow = null;
-        lastTooHigh = null;
+      if (guess == widget.nm.nombreMystere) {
+        lastInput = 'Bravo, vous avez trouvé le nombre mystère! C\'était bien ${widget.nm.nombreMystere}, vous avez pris ${widget.nm.nbEssaisNiveau + 1}/${widget.nm.nbTentativesMaxNiveau} essais';
+        widget.nm.nextLevel();
       } else {
-        if (guess < mysteryNumber) {
-          if (lastTooLow == null || guess > lastTooLow!) {
-            lastTooLow = guess;
+        if (guess < widget.nm.nombreMystere) {
+          if (guess > widget.nm.tentativeBasse) {
+            widget.nm.tentativeBasse = guess;
           }
           lastInput = 'Le nombre mystère est plus grand que $currentInput';
         } else {
-          if (lastTooHigh == null || guess < lastTooHigh!) {
-            lastTooHigh = guess;
+          if (guess < widget.nm.tentativeHaute) {
+            widget.nm.tentativeHaute = guess;
           }
           lastInput = 'Le nombre mystère est plus petit que $currentInput';
         }
-        currentInput = '';
-        attempts--;
-        if (attempts == 0) {
-          lastInput = 'Vous avez perdu! Le nombre mystère était $mysteryNumber';
+        widget.nm.nbEssaisNiveau++;
+        if (widget.nm.nbEssaisNiveau == widget.nm.nbTentativesMaxNiveau) {
+          lastInput = 'Vous avez perdu! Le nombre mystère était ${widget.nm.nombreMystere}';
         }
       }
+      currentInput = '';
+      _controller.clear();
     });
   }
 }

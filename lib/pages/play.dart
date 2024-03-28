@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:jeu/modele/nombre_mystere.dart';
 import '../../mytheme.dart';
 import 'package:jeu/pages/game.dart';
 
 class Play extends StatefulWidget {
-  const Play({super.key});
+  const Play({super.key, required this.nm});
+  final NombreMystere nm;
 
   @override
   State<Play> createState() => _PlayState();
@@ -15,7 +17,7 @@ class _PlayState extends State<Play> {
   @override
   Widget build(BuildContext context) {
     return isGameScreenVisible
-        ? const Game()
+        ? Game(nm: widget.nm)
         : WidgetLancerJeu(
           onPlayPressed: () {
             setState(() {
