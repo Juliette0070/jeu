@@ -109,6 +109,7 @@ class GameState extends State<Game> {
         widget.nm.nbEssaisNiveau++;
         if (widget.nm.nbEssaisNiveau == widget.nm.nbTentativesMaxNiveau) {
           lastInput = 'Vous avez perdu! Le nombre mystère était ${widget.nm.nombreMystere}';
+          widget.nm.enregistrerScore();
         }
       }
       currentInput = '';

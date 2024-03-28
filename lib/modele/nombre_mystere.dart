@@ -1,11 +1,13 @@
 import 'dart:math';
 
 class NombreMystere {
+  String pseudo = '';
   int nombreMystere = 0;
   int nbTentativesMaxNiveau = 0;
   int nbEssaisNiveau = 0;
   int niveau = 0;
-  int score = 0;
+  int scoreTotal = 0;
+  List<Map<String, int>> scores = [];
   int tentativeBasse = 0;
   int tentativeHaute = 0;
   static Map<int, List<int>> niveaux = {
@@ -45,8 +47,12 @@ class NombreMystere {
   }
 
   void nextLevel() {
-    score += (nbTentativesMaxNiveau - nbEssaisNiveau) * niveaux[niveau]![0];
+    scoreTotal += (nbTentativesMaxNiveau - nbEssaisNiveau) * niveaux[niveau]![0];
     niveau++;
     initNiveau(niveau);
+  }
+
+  void enregistrerScore() {
+    scores.add({pseudo: scoreTotal});
   }
 }

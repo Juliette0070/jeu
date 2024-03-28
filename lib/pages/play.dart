@@ -13,25 +13,31 @@ class Play extends StatefulWidget {
 
 class _PlayState extends State<Play> {
   static bool isGameScreenVisible = false;
+  late TextEditingController _pseudoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return isGameScreenVisible
         ? Game(nm: widget.nm)
         : WidgetLancerJeu(
+        pseudoController: _pseudoController,
           onPlayPressed: () {
             setState(() {
+              widget.nm.pseudo = _pseudoController.text.isNotEmpty
+                  ? _pseudoController.text
+                  : 'Anonyme';
               isGameScreenVisible = true;
             });
           },
-    );
+      );
   }
 }
 
 class WidgetLancerJeu extends StatelessWidget {
+  final TextEditingController pseudoController;
   final VoidCallback onPlayPressed;
 
-  const WidgetLancerJeu({Key? key, required this.onPlayPressed})
+  const WidgetLancerJeu({Key? key, required this.pseudoController, required this.onPlayPressed})
       : super(key: key);
 
   @override
@@ -46,6 +52,13 @@ class WidgetLancerJeu extends StatelessWidget {
                 children: <Widget>[
                   Image.asset('assets/images/nombreMystere.jpg'),
                   const Text("Page de jeu!"),
+                  TextField(
+                    controller: pseudoController,
+                    decoration: const InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Entrez votre pseudo',
+                    ),
+                  ),
                   ElevatedButton(
                     onPressed: onPlayPressed,
                     child: const Text('Jouer'),
