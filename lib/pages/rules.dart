@@ -34,7 +34,7 @@ class Rules extends StatelessWidget {
                     Container(
                       margin: EdgeInsets.symmetric(vertical: screenHeight * 0.05, horizontal: screenWidth * 0.05),
                       child: Text(
-                        "III - Si vous réussissez à trouver le nombre mystère, vous gagnez la partie.",
+                        "III - Si vous réussissez à trouver le nombre mystère, vous passez au niveau suivant.",
                         style: MyTheme.darkTextTheme.displayMedium,
                       ),
                     ),

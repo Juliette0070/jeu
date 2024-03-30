@@ -7,9 +7,10 @@ class NombreMystere {
   int nbEssaisNiveau = 0;
   int niveau = 0;
   int scoreTotal = 0;
-  List<Map<String, int>> scores = [];
+  List<Map<String, String>> scores = [];
   int tentativeBasse = 0;
   int tentativeHaute = 0;
+  int valMax = 0;
   static Map<int, List<int>> niveaux = {
     1: [10, 5],
     2: [20, 6],
@@ -32,27 +33,29 @@ class NombreMystere {
     if (niveaux.containsKey(niv)){
       nbTent = niveaux[niv]![1];
       tentH = niveaux[niv]![0];
-      nbMyst = Random().nextInt(tentH);
+      nbMyst = Random().nextInt(tentH-1)+1;
     } else {
       nbTent = niv;
-      tentH = 10*2^niv;
-      nbMyst = Random().nextInt(tentH);
+      tentH = (10 * pow(2, niv)) as int;
+      nbMyst = Random().nextInt(tentH-1)+1;
     }
     nombreMystere = nbMyst;
     nbTentativesMaxNiveau = nbTent;
     niveau = niv;
     tentativeHaute = tentH;
+    valMax = tentH;
     tentativeBasse = 0;
     nbEssaisNiveau = 0;
   }
 
   void nextLevel() {
-    scoreTotal += (nbTentativesMaxNiveau - nbEssaisNiveau) * niveaux[niveau]![0];
+    scoreTotal += (nbTentativesMaxNiveau - nbEssaisNiveau) * valMax;
     niveau++;
     initNiveau(niveau);
   }
 
   void enregistrerScore() {
-    scores.add({pseudo: scoreTotal});
+    scores.add({"pseudo": pseudo, "scoreTotal": "$scoreTotal", "niveau": "$niveau"});
+    scoreTotal = 0;
   }
 }

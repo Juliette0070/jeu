@@ -27,7 +27,7 @@ class Home extends State<MainPage>{
         child = Play(nm: nm);
         break;
       case 1:
-        child = const Scores();
+        child = Scores(nm: nm);
         break;
       case 2:
         child = const Rules();

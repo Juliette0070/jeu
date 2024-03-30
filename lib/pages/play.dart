@@ -8,19 +8,32 @@ class Play extends StatefulWidget {
   final NombreMystere nm;
 
   @override
-  State<Play> createState() => _PlayState();
+  State<Play> createState() => PlayState();
 }
 
-class _PlayState extends State<Play> {
+class PlayState extends State<Play> {
   static bool isGameScreenVisible = false;
-  late TextEditingController _pseudoController = TextEditingController();
+  late final TextEditingController _pseudoController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return isGameScreenVisible
-        ? Game(nm: widget.nm)
+        ? Game(
+            nm: widget.nm,
+            onEndGame: () {
+              setState(() {
+                isGameScreenVisible = false;
+                widget.nm.initNiveau(1);
+              });
+            },
+            onLeaveGame: () {
+              setState(() {
+                isGameScreenVisible = false;
+              });
+            },
+          )
         : WidgetLancerJeu(
-        pseudoController: _pseudoController,
+          pseudoController: _pseudoController,
           onPlayPressed: () {
             setState(() {
               widget.nm.pseudo = _pseudoController.text.isNotEmpty
@@ -51,7 +64,7 @@ class WidgetLancerJeu extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image.asset('assets/images/nombreMystere.jpg'),
-                  const Text("Page de jeu!"),
+                  const SizedBox(height: 20),
                   TextField(
                     controller: pseudoController,
                     decoration: const InputDecoration(
