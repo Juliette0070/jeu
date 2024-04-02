@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:jeu/modele/sharedPref.dart';
 
 class NombreMystere {
   String pseudo = '';
@@ -55,7 +56,7 @@ class NombreMystere {
   }
 
   void enregistrerScore() {
-    scores.add({"pseudo": pseudo, "scoreTotal": "$scoreTotal", "niveau": "$niveau"});
+    saveScore(pseudo, scoreTotal, niveau);
     scoreTotal = 0;
   }
 }
