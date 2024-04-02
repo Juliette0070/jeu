@@ -36,6 +36,26 @@ class PlayState extends State<Play> {
           pseudoController: _pseudoController,
           onPlayPressed: () {
             setState(() {
+              widget.nm.initNiveau(1);
+              widget.nm.enregistrerScore();
+              widget.nm.pseudo = _pseudoController.text.isNotEmpty
+                  ? _pseudoController.text
+                  : 'Anonyme';
+              isGameScreenVisible = true;
+            });
+          },
+          onContinuerPressed: () {
+            setState(() {
+              widget.nm.pseudo = _pseudoController.text.isNotEmpty
+                  ? _pseudoController.text
+                  : 'Anonyme';
+              isGameScreenVisible = true;
+            });
+          },
+          onDernierPressed: () {
+            setState(() {
+              widget.nm.initNiveau(widget.nm.niveau);
+              widget.nm.enregistrerScore();
               widget.nm.pseudo = _pseudoController.text.isNotEmpty
                   ? _pseudoController.text
                   : 'Anonyme';
@@ -49,9 +69,12 @@ class PlayState extends State<Play> {
 class WidgetLancerJeu extends StatelessWidget {
   final TextEditingController pseudoController;
   final VoidCallback onPlayPressed;
+  final VoidCallback onContinuerPressed;
+  final VoidCallback onDernierPressed;
 
-  const WidgetLancerJeu({Key? key, required this.pseudoController, required this.onPlayPressed})
-      : super(key: key);
+  const WidgetLancerJeu({Key? key, required this.pseudoController,
+    required this.onPlayPressed, required this.onContinuerPressed,
+    required this.onDernierPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -72,9 +95,22 @@ class WidgetLancerJeu extends StatelessWidget {
                       labelText: 'Entrez votre pseudo',
                     ),
                   ),
-                  ElevatedButton(
-                    onPressed: onPlayPressed,
-                    child: const Text('Jouer'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      ElevatedButton(
+                        onPressed: onPlayPressed,
+                        child: const Text('Jouer'),
+                      ),
+                      ElevatedButton(
+                        onPressed: onContinuerPressed,
+                        child: const Text('Continuer'),
+                      ),
+                      ElevatedButton(
+                        onPressed: onDernierPressed,
+                        child: const Text('Dernier niveau'),
+                      ),
+                    ],
                   ),
                 ],
               ),
