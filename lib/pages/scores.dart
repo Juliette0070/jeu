@@ -41,17 +41,21 @@ class Scores extends StatelessWidget {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: snapshot.data?.map((key) {
-                                    return FutureBuilder<Map<String, int>>(
-                                      future: loadScore(key),
-                                      builder: (BuildContext context, AsyncSnapshot<Map<String, int>> scoreSnapshot) {
+                                    return FutureBuilder<List<Map<String, int>>>(
+                                      future: loadScores(key),
+                                      builder: (BuildContext context, AsyncSnapshot<List<Map<String, int>>> scoreSnapshot) {
                                         if (scoreSnapshot.connectionState == ConnectionState.waiting) {
                                           return CircularProgressIndicator();
                                         } else if (scoreSnapshot.hasError) {
                                           return Text('Error: ${scoreSnapshot.error}');
                                         } else {
-                                          return Text(
-                                            "$key: ${scoreSnapshot.data?['score']} (Niveau ${scoreSnapshot.data?['level']})",
-                                            style: const TextStyle(fontSize: 24),
+                                          return Column(
+                                            children: scoreSnapshot.data?.map((scoreAndLevel) {
+                                              return Text(
+                                                "$key: ${scoreAndLevel['score'].toString()} (Niveau ${scoreAndLevel['level'].toString()})",
+                                                style: const TextStyle(fontSize: 24),
+                                              );
+                                            }).toList() ?? [],
                                           );
                                         }
                                       },

@@ -3,18 +3,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 // To save scores
 Future<void> saveScore(String key, int score, int level) async {
   final prefs = await SharedPreferences.getInstance();
-  String? scoreAndLevelString = prefs.getString(key);
-  if (scoreAndLevelString != null) {
-    List<String> scoreAndLevelList = scoreAndLevelString.split(',');
-    if (scoreAndLevelList.length == 2) {
-      int previousScore = int.tryParse(scoreAndLevelList[0]) ?? 0;
-      if (score <= previousScore) {
-        return; // If the new score is not higher than the previous one, do not save it
-      }
-    }
-  }
+  List<String> scoreAndLevelList = prefs.getStringList(key) ?? [];
+
   String newScoreAndLevelString = '$score,$level';
-  prefs.setString(key, newScoreAndLevelString);
+  scoreAndLevelList.add(newScoreAndLevelString);
+
+  prefs.setStringList(key, scoreAndLevelList);
 }
 
 // To get the maximum level reached
@@ -36,36 +30,41 @@ Future<List<String>> getAllKeys() async {
   final prefs = await SharedPreferences.getInstance();
   Set<String> keys = prefs.getKeys();
 
-  keys.remove('maxlevel'); // Remove the key used to store the maximum level reached
+  keys.remove('maxLevel'); // Remove the key used to store the maximum level reached
 
   // Load all scores
-  Map<String, int> scores = {};
+  Map<String, int> maxScores = {};
   for (String key in keys) {
-    Map<String, int> scoreAndLevel = await loadScore(key);
-    scores[key] = scoreAndLevel['score'] ?? 0;
+    List<Map<String, int>> scoresAndLevels = await loadScores(key);
+    int maxScore = scoresAndLevels
+        .map((scoreAndLevel) => scoreAndLevel['score'] ?? 0)
+        .reduce((value, element) => value > element ? value : element);
+    maxScores[key] = maxScore;
   }
 
-  // Sort keys by score in descending order
+  // Sort keys by max score in descending order
   List<String> sortedKeys = keys.toList();
-  sortedKeys.sort((a, b) => (scores[b]?.compareTo(scores[a] ?? 0) ?? 0));
+  sortedKeys.sort((a, b) => (maxScores[b]?.compareTo(maxScores[a] ?? 0) ?? 0));
 
   return sortedKeys;
 }
 
-Future<Map<String, int>> loadScore(String key) async {
+Future<List<Map<String, int>>> loadScores(String key) async {
   final prefs = await SharedPreferences.getInstance();
-  String? scoreAndLevelString = prefs.getString(key);
-  if (scoreAndLevelString == null) {
-    return {'score': 0, 'level': 0};
-  } else {
+  List<String> scoreAndLevelStrings = prefs.getStringList(key) ?? [];
+
+  List<Map<String, int>> scoresAndLevels = [];
+  for (String scoreAndLevelString in scoreAndLevelStrings) {
     List<String> scoreAndLevelList = scoreAndLevelString.split(',');
     if (scoreAndLevelList.length != 2) {
-      return {'score': 0, 'level': 0};
+      continue;
     }
     int score = int.tryParse(scoreAndLevelList[0]) ?? 0;
     int level = int.tryParse(scoreAndLevelList[1]) ?? 0;
-    return {'score': score, 'level': level};
+    scoresAndLevels.add({'score': score, 'level': level});
   }
+
+  return scoresAndLevels;
 }
 
 Future<void> clearPreferences() async {
