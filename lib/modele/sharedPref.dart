@@ -7,6 +7,21 @@ Future<void> saveScore(String key, int score, int level) async {
   prefs.setString(key, scoreAndLevelString);
 }
 
+// To get the maximum level reached
+Future<int> getMaxLevel() async {
+  final prefs = await SharedPreferences.getInstance();
+  int maxLevel = prefs.getInt('maxLevel') ?? 1;
+  return maxLevel;
+}
+
+// To save the maximum level reached
+Future<void> saveMaxLevel(int level) async {
+  final prefs = await SharedPreferences.getInstance();
+  if (level > (prefs.getInt('maxLevel') ?? 1)) {
+    prefs.setInt('maxLevel', level);
+  }
+}
+
 Future<Set<String>> getAllKeys() async {
   final prefs = await SharedPreferences.getInstance();
   return prefs.getKeys();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:jeu/modele/nombre_mystere.dart';
 import '../../mytheme.dart';
 import 'package:jeu/pages/game.dart';
+import 'package:jeu/modele/sharedPref.dart';
 
 class Play extends StatefulWidget {
   const Play({super.key, required this.nm});
@@ -55,7 +56,7 @@ class PlayState extends State<Play> {
           onDernierPressed: () {
             setState(() {
               if (widget.nm.niveau != 1) {widget.nm.enregistrerScore();}
-              widget.nm.initNiveau(widget.nm.niveau);
+              widget.nm.initNiveau(getMaxLevel() as int);
               widget.nm.pseudo = _pseudoController.text.isNotEmpty
                   ? _pseudoController.text
                   : 'Anonyme';
@@ -72,9 +73,9 @@ class WidgetLancerJeu extends StatelessWidget {
   final VoidCallback onContinuerPressed;
   final VoidCallback onDernierPressed;
 
-  const WidgetLancerJeu({Key? key, required this.pseudoController,
+  const WidgetLancerJeu({super.key, required this.pseudoController,
     required this.onPlayPressed, required this.onContinuerPressed,
-    required this.onDernierPressed}) : super(key: key);
+    required this.onDernierPressed});
 
   @override
   Widget build(BuildContext context) {

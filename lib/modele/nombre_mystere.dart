@@ -53,6 +53,7 @@ class NombreMystere {
     scoreTotal += (nbTentativesMaxNiveau - nbEssaisNiveau) * valMax;
     niveau++;
     initNiveau(niveau);
+    saveMaxLevel(niveau);
   }
 
   void enregistrerScore() {

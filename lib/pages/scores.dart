@@ -19,7 +19,7 @@ class Scores extends StatelessWidget {
                   future: getAllKeys(),
                   builder: (BuildContext context, AsyncSnapshot<Set<String>> snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
+                      return const CircularProgressIndicator();
                     } else if (snapshot.hasError) {
                       return Text('Error: ${snapshot.error}');
                     } else {
@@ -30,7 +30,7 @@ class Scores extends StatelessWidget {
                             future: loadScore(key),
                             builder: (BuildContext context, AsyncSnapshot<Map<String, int>> scoreSnapshot) {
                               if (scoreSnapshot.connectionState == ConnectionState.waiting) {
-                                return CircularProgressIndicator();
+                                return const CircularProgressIndicator();
                               } else if (scoreSnapshot.hasError) {
                                 return Text('Error: ${scoreSnapshot.error}');
                               } else {
