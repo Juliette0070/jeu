@@ -15,36 +15,56 @@ class Scores extends StatelessWidget {
         title: "Nombre mystère",
         home: Scaffold(
             body: Center(
-                child: FutureBuilder<Set<String>>(
-                  future: getAllKeys(),
-                  builder: (BuildContext context, AsyncSnapshot<Set<String>> snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError) {
-                      return Text('Error: ${snapshot.error}');
-                    } else {
-                      return Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: snapshot.data?.map((key) {
-                          return FutureBuilder<Map<String, int>>(
-                            future: loadScore(key),
-                            builder: (BuildContext context, AsyncSnapshot<Map<String, int>> scoreSnapshot) {
-                              if (scoreSnapshot.connectionState == ConnectionState.waiting) {
-                                return CircularProgressIndicator();
-                              } else if (scoreSnapshot.hasError) {
-                                return Text('Error: ${scoreSnapshot.error}');
-                              } else {
-                                return Text(
-                                  "$key: ${scoreSnapshot.data?['score']} (Niveau ${scoreSnapshot.data?['level']})",
-                                  style: const TextStyle(fontSize: 24),
-                                );
-                              }
-                            },
-                          );
-                        }).toList() ?? [],
-                      );
-                    }
-                  },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text(
+                        'Scoreboard',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    Expanded(
+                      child: FutureBuilder<List<String>>(
+                        future: getAllKeys(),
+                        builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
+                          if (snapshot.connectionState == ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            if (snapshot.data?.isEmpty ?? true) {
+                              return Center(child: Text('Jouez pour ajouter un score!'));
+                            } else {
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: snapshot.data?.map((key) {
+                                    return FutureBuilder<Map<String, int>>(
+                                      future: loadScore(key),
+                                      builder: (BuildContext context, AsyncSnapshot<Map<String, int>> scoreSnapshot) {
+                                        if (scoreSnapshot.connectionState == ConnectionState.waiting) {
+                                          return CircularProgressIndicator();
+                                        } else if (scoreSnapshot.hasError) {
+                                          return Text('Error: ${scoreSnapshot.error}');
+                                        } else {
+                                          return Text(
+                                            "$key: ${scoreSnapshot.data?['score']} (Niveau ${scoreSnapshot.data?['level']})",
+                                            style: const TextStyle(fontSize: 24),
+                                          );
+                                        }
+                                      },
+                                    );
+                                  }).toList() ?? [],
+                                ),
+                              );
+                            }
+                          }
+                        },
+                      ),
+                    ),
+                  ],
                 )
             )
         )
