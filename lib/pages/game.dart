@@ -125,8 +125,8 @@ class GameState extends State<Game> {
         }
         if (widget.nm.nbEssaisNiveau >= widget.nm.nbTentativesMaxNiveau) { // plus d'essais
           lastInput = 'Vous avez perdu! Le nombre mystère était ${widget.nm.nombreMystere}';
-          widget.nm.enregistrerScore();
           Future.delayed(const Duration(seconds: 1), () {
+            widget.nm.enregistrerScore();
             widget.onEndGame();
           });
         }
