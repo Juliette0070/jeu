@@ -54,13 +54,15 @@ class PlayState extends State<Play> {
             });
           },
           onDernierPressed: () {
-            setState(() {
-              if (widget.nm.niveau != 1) {widget.nm.enregistrerScore();}
-              widget.nm.initNiveau(getMaxLevel() as int);
-              widget.nm.pseudo = _pseudoController.text.isNotEmpty
-                  ? _pseudoController.text
-                  : 'Anonyme';
-              isGameScreenVisible = true;
+            if (widget.nm.niveau != 1) {widget.nm.enregistrerScore();}
+            getMaxLevel().then((maxLevel) {
+              setState(() {
+                widget.nm.initNiveau(maxLevel);
+                widget.nm.pseudo = _pseudoController.text.isNotEmpty
+                    ? _pseudoController.text
+                    : 'Anonyme';
+                isGameScreenVisible = true;
+              });
             });
           },
       );
