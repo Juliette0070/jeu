@@ -26,9 +26,9 @@ class Scores extends StatelessWidget {
                       ),
                     ),
                     Expanded(
-                      child: FutureBuilder<Set<String>>(
+                      child: FutureBuilder<List<String>>(
                         future: getAllKeys(),
-                        builder: (BuildContext context, AsyncSnapshot<Set<String>> snapshot) {
+                        builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
                           if (snapshot.connectionState == ConnectionState.waiting) {
                             return CircularProgressIndicator();
                           } else if (snapshot.hasError) {
