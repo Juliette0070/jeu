@@ -36,8 +36,8 @@ class PlayState extends State<Play> {
           pseudoController: _pseudoController,
           onPlayPressed: () {
             setState(() {
+              if (widget.nm.niveau != 1) {widget.nm.enregistrerScore();}
               widget.nm.initNiveau(1);
-              widget.nm.enregistrerScore();
               widget.nm.pseudo = _pseudoController.text.isNotEmpty
                   ? _pseudoController.text
                   : 'Anonyme';
@@ -54,8 +54,8 @@ class PlayState extends State<Play> {
           },
           onDernierPressed: () {
             setState(() {
+              if (widget.nm.niveau != 1) {widget.nm.enregistrerScore();}
               widget.nm.initNiveau(widget.nm.niveau);
-              widget.nm.enregistrerScore();
               widget.nm.pseudo = _pseudoController.text.isNotEmpty
                   ? _pseudoController.text
                   : 'Anonyme';
