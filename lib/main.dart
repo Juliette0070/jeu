@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'pages/mainPage.dart';
+import 'pages/main_page.dart';
 
 void main() {
-  runApp( const MaterialApp(
+  runApp(const MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "SAE Mobile",
+      title: "Nombre mystère",
       home: MainPage()
   ));
 }

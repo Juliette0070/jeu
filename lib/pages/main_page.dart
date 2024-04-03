@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jeu/modele/nombre_mystere.dart';
 import 'package:jeu/pages/play.dart';
 import 'package:jeu/pages/scores.dart';
 import 'package:jeu/pages/rules.dart';
@@ -13,6 +14,7 @@ class MainPage extends StatefulWidget{
 
 class Home extends State<MainPage>{
   Home();
+  NombreMystere nm = NombreMystere();
 
   int _currentScreen = 0;
 
@@ -22,22 +24,22 @@ class Home extends State<MainPage>{
 
     switch(_currentScreen){
       case 0:
-        child = Play();
+        child = Play(nm: nm);
         break;
       case 1:
-        child = Scores();
+        child = Scores(nm: nm);
         break;
       case 2:
-        child = Rules();
+        child = const Rules();
         break;
     }
 
     return MaterialApp(
         theme: MyTheme.dark(),
-        title: 'TD2',
+        title: "Nombre mystère",
         home: Scaffold(
           appBar: AppBar(
-              title: const Text("Application du TD2"),
+              title: const Text("Nombre mystère"),
               titleTextStyle: MyTheme.darkTextTheme.displayLarge
           ),
           backgroundColor: Colors.black,
